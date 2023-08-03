@@ -21,6 +21,13 @@ export default function Header() {
     if (event.key === "Enter") {
       // Perform the action you want to trigger when Enter is pressed, e.g., search
       console.log("Enter key pressed! Perform search here...");
+      const val = event.target.value;
+      if (val.length === 64) {
+        //getProfile call
+        window.location.href = `http://localhost:3000/publisher/${val}`;
+      } else {
+        window.location.href = `http://localhost:3000/mediaDetails/${val}`;
+      }
       setsearchId(event.target.value);
       console.log(event.target.value);
     }
@@ -72,39 +79,22 @@ export default function Header() {
 
             <div class="absolute z-10 w-full bg-white mt-2 rounded-lg shadow-lg">
               <ul class="divide-y divide-white rounded-lg  ">
-                {
-                  searchId && data
-                    ? data.map((item) => {
-                        return item.tokenId.toString() === searchId ? (
-                          <li class="px-4 py-2 cursor-pointer hover:bg-gray-100 ">
-                            <span>{item.tokenId} </span>
+                {searchId && data
+                  ? data.map((item) => {
+                      return item.tokenId.toString() === searchId ? (
+                        <li class="px-4 py-2 cursor-pointer hover:bg-gray-100 ">
+                          <span>{item.tokenId} </span>
 
-                            <span>
-                              {item.tokenUri.substring(0, 10)}...
-                              {item.tokenUri.substring(
-                                item.tokenUri.length - 7
-                              )}
-                            </span>
-                          </li>
-                        ) : (
-                          ""
-                        );
-                      })
-                    : ""
-                  // <li class="px-4 py-2 cursor-pointer hover:bg-gray-100">
-                  //   Not found !!
-                  // </li>
-                }
-
-                {/* <li class="px-4 py-2 cursor-pointer hover:bg-gray-100">
-                  Suggestion 2
-                </li>
-                <li class="px-4 py-2 cursor-pointer hover:bg-gray-100">
-                  Suggestion 3
-                </li>
-                <li class="px-4 py-2 cursor-pointer hover:bg-gray-100">
-                  Suggestion 4
-                </li> */}
+                          <span>
+                            {item.tokenUri.substring(0, 10)}...
+                            {item.tokenUri.substring(item.tokenUri.length - 7)}
+                          </span>
+                        </li>
+                      ) : (
+                        ""
+                      );
+                    })
+                  : ""}
               </ul>
             </div>
           </div>

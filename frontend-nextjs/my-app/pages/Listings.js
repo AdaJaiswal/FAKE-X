@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { generateSHA256Hash } from "../utils/cryptoHash";
 import { copyToClipboard } from "../utils/frontendMethods";
-const Listings = ({ allData }) => {
-  const [inputString, setInputString] = useState("");
+const Listings = () => {
+  const [allData, setallData] = useState("");
   const handleInputChange = (e) => {
     setInputString(e.target.value);
   };
@@ -27,6 +27,15 @@ const Listings = ({ allData }) => {
       userIdHash: "1270b9193b26d154693",
     },
   ];
+  useEffect(() => {
+    (async () => {
+      const url = "http://localhost:8000/getAllData";
+      const response = await fetch(url);
+      const data = JSON.parse(await response.json());
+      console.log(data);
+      setallData(data);
+    })();
+  }, []);
 
   return (
     <div>
@@ -63,9 +72,9 @@ const Listings = ({ allData }) => {
 
 export default Listings;
 
-export async function getServerSideProps() {
-  const url = "http://localhost:8000/getAllData";
-  const response = await fetch(url);
-  const allData = JSON.parse(await response.json());
-  return { props: { allData } };
-}
+// export async function getServerSideProps() {
+//   const url = "http://localhost:8000/getAllData";
+//   const response = await fetch(url);
+//   const allData = JSON.parse(await response.json());
+//   return { props: { allData } };
+// }

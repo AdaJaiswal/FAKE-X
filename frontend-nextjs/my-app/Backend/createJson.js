@@ -28,15 +28,21 @@ async function addDataToFirebaseDatabase(data) {
 
     await userDataRef.set(data.userData);
   }
-  const mediaRef = db.ref(`users/${data.userIdHash}/media`);
-  mediaRef.update(data.media);
+  const mediaRef = db.ref(`users/${data.userIdHash}/media/${data.tokenId}`);
+  const date = new Date(Date.now()).toISOString().split("T")[0];
+  const dataToAdd = {
+    tokenUri: data.tokenUri,
+    timestamp: date,
+  };
+  mediaRef.set(dataToAdd);
 }
 async function addToAll(data) {
-  const tokenId = Object.keys(data.media)[0];
-  const tokenRef = db.ref(`allData/${tokenId}`);
+  const tokenRef = db.ref(`allData/${data.tokenId}`);
+  const date = new Date(Date.now()).toISOString().split("T")[0];
   const dataToSave = {
-    mediaUri: data.media[tokenId],
+    mediaUri: data.tokenUri,
     userIdHash: data.userIdHash,
+    timestamp: date,
   };
   console.log(dataToSave);
   await tokenRef.update(dataToSave);
@@ -117,6 +123,24 @@ app.get("/getAllData", async function (req, res) {
     .catch((error) => {
       console.error("Error fetching collections:", error);
       res.status(200).json({ message: "error occured" });
+    });
+});
+
+app.post("/getWithTokenId", async function (req, res) {
+  const tokenId = req.body.tokenId;
+  db.ref(`allData/${tokenId}`)
+    .once("value")
+    .then((snapshot) => {
+      const dataSnapshot = snapshot.val();
+      if (dataSnapshot) {
+        res.status(200).json(JSON.stringify(dataSnapshot));
+      } else {
+        res.status(200).json({ message: "not data found" });
+        console.log("'users' node is empty.");
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "error occured" });
     });
 });
 

@@ -15,6 +15,7 @@ const PublisherProfile = ({ published }) => {
             Published
           </li>
           <a
+            target="/"
             href="https://sepolia.etherscan.io/address/0x4Ea82f53c7332A9430276B27964F85f74d94Ce75"
             className="w-45 h-50 p-5 my-3 hover:bg-violet-400 hover:text-white transition duration-200 shadow-md rounded-md border border-gray-200 border-2 flex justify-between"
           >
@@ -31,13 +32,10 @@ const PublisherProfile = ({ published }) => {
                 return (
                   <li className="w-45 h-50 p-5 mx-5 my-3 hover:bg-violet-50 transition duration-200 shadow-md rounded-md border border-gray-200 border-2 flex justify-between">
                     <span>{item}</span>
-                    <a href={published[item]} target="/">
-                      {published[item]}
+                    <a href={published[item].tokenUri} target="/">
+                      {published[item].tokenUri}
                     </a>
-                    <span>
-                      {/* {userdata.userIdHash.substring(0, 10)} */}
-                      02/08/2023
-                    </span>
+                    <span>{published[item].timestamp}</span>
                   </li>
                 );
               })

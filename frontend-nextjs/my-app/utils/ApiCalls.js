@@ -121,3 +121,24 @@ export async function getProfile(url, data) {
     console.error("Error sending POST request:", error);
   }
 }
+export async function getWithTokenId(url, data) {
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    // Check if the request was successful
+    if (!response.ok) {
+      throw new Error("Network response was not ok.");
+    }
+
+    const responseData = JSON.parse(await response.json());
+    console.log("Response from the server:", responseData);
+    return responseData;
+  } catch (error) {
+    console.error("Error sending POST request:", error);
+  }
+}

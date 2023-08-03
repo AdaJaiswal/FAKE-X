@@ -113,15 +113,10 @@ const Tabs = ({ userdata }) => {
                 return (
                   <li className="w-45 h-50 p-5 mx-5 my-3 hover:bg-violet-50 transition duration-200 shadow-md rounded-md border border-gray-200 border-2 flex justify-between">
                     <span>{item}</span>
-                    <a href={published[item]} target="/">
-                      {published[item]}
+                    <a href={published[item].tokenUri} target="/">
+                      {published[item].tokenUri}
                     </a>
-                    <a
-                      href={`http://localhost:3000/publisher/1270b9193b26d15469347e88aedfa3cf18b141dc01014a86fe8e77f4680a911d`}
-                    >
-                      {/* {userdata.userIdHash.substring(0, 10)} */}
-                      aofgjjkl
-                    </a>
+                    <span>{published[item].timestamp}</span>
                   </li>
                 );
               })
